@@ -1,5 +1,11 @@
 import Header from './pages/Header';
+import Login from './pages/Login'
 import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 function App() {
   return (
@@ -19,7 +25,13 @@ function App() {
     //     </a>
     //   </header>
     // </div>
-    <Header />
+    // <Header />
+    <BrowserRouter>
+      <Routes>
+        <Route path="" element={<Header/>}/>
+        <Route path="login" element={<Login/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
