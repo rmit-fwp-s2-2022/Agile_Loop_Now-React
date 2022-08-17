@@ -54,7 +54,7 @@ function SignUp() {
                 }
                 localStorage.setItem(values.email, JSON.stringify(user));
                 navigate('/');
-            },1000);          
+            },2000);          
         }
     })
 
@@ -123,7 +123,7 @@ function SignUp() {
                                 <Stack spacing={4}>
                                     <Alert status='success' display={success()}>
                                         <AlertIcon />
-                                        Account successfully created!
+                                        Account successfully created! 
                                     </Alert> 
                                     <Button type='submit' isLoading={formik.isSubmitting} bg={'tomato'} color={'white'} _hover={{bg: 'red.500'}} minW={'100%'}>
                                         Sign Up
