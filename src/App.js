@@ -1,5 +1,6 @@
 import Header from './pages/Header';
 import Login from './pages/Login'
+import SignUp from './pages/SignUp'
 import './App.css';
 import {
   BrowserRouter,
@@ -30,6 +31,7 @@ function App() {
       <Routes>
         <Route path="" element={<Header/>}/>
         <Route path="login" element={<Login/>}/>
+        <Route path="signup" element={<SignUp/>}/>
       </Routes>
     </BrowserRouter>
   );
