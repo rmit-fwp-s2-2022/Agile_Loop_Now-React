@@ -2,54 +2,90 @@ import {
     Box, 
     Container, 
     Center, 
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
-    Input, 
     Stack,
     Heading, 
     Button,
     Text,
-    Link
+    Link,
+    Alert,
+    AlertIcon
 } from '@chakra-ui/react'
-
+import { Formik } from 'formik';
 import Header from './Header';
+import * as Yup from 'yup';
+import FormField from './FormField';
+import { Link as RouteLink, useNavigate} from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate();
     return ( 
     <Box>
         <Header/>
 
         <Center minH={'70vh'}>
-            <Container maxW='md' boxShadow={'2xl'} rounded={'lg'} borderWidth={1}>
-                <Box align={'center'} pt={8}>
-                    <Heading fontSize={'3xl'}>Log In</Heading>
-                </Box>
-                <form>
-                <Stack spacing={6} py={10} px={6}>
-                    <FormControl isRequired>
-                        <FormLabel>Email address</FormLabel>
-                        <Input type='email' placeholder='Enter your email address' />          
-                    </FormControl>
+            <Formik 
+                initialValues={{
+                    email: "",
+                    password: ""
+                }}
+                validationSchema={Yup.object({
+                    email: Yup.string().email("Email must be a valid Email").required("Email is required"),
+                    password: Yup.string().required("Password is required")
+                    .test(
+                        'validateUser',
+                        'Invalid Email or Password',
+                        function(){
+                            const user = JSON.parse(localStorage.getItem(this.parent.email));
+                            if (user != null && user.password === this.parent.password){
+                                return true
+                            }else{
+                                return false
+                            }
+                        }
+                    )
+                })}
+                onSubmit={(values, actions) => {
+                
+                    setTimeout(() => {
+                        // alert(JSON.stringify(values, null, 2));
+                        navigate('/');  
+                    },1500);   
+                            
+                }}
+                validateOnChange={false}
+                validateOnBlur={false}>
+                {formik => (
+                    <Container maxW='md' boxShadow={'2xl'} rounded={'lg'} borderWidth={1} onSubmit={formik.handleSubmit} as='form'>
+                        <Box align={'center'} pt={8}>
+                            <Heading fontSize={'3xl'}>Log In</Heading>
+                        </Box>
+                        
+                        <Stack spacing={6} py={10} px={6}>
 
-                    <FormControl isRequired>
-                        <FormLabel>Password</FormLabel>
-                        <Input type='password' placeholder='Enter your password' />          
-                    </FormControl>
+                            <FormField name='email' type='email' placeholder='Enter your email address' label={'Email Address'}/>
 
-                    <Box pt={5}>
-                    <Button type='submit' bg={'tomato'} color={'white'} _hover={{bg: 'red.500'}} minW={'100%'}>
-                        Sign In
-                    </Button>
+                            <FormField name='password' type='password' placeholder='Enter your password' label={'Password'}/>
 
-                    <Text fontSize={'sm'} color={'gray.600'} align={'center'} pt={5}>
-                        Don't have an account? <Link color={'blue.400'}>Sign Up</Link> 
-                    </Text>
-                    </Box>
-                </Stack>
-                </form>
-            </Container>
+                            <Box>
+                                <Stack spacing={4}>
+                                    <Alert status='success' display={formik.isSubmitting ? 'inherit' : 'none'}>
+                                        <AlertIcon />
+                                        Logging You In! 
+                                    </Alert> 
+                                    <Button type='submit' isLoading={formik.isSubmitting} bg={'tomato'} color={'white'} _hover={{bg: 'red.500'}} minW={'100%'}>
+                                        Sign In
+                                    </Button>
+
+                                    <Text fontSize={'sm'} color={'gray.600'} align={'center'} pt={5}>
+                                        Don't have an account? <Link as={RouteLink} to='/signup' color={'blue.400'}>Sign Up</Link> 
+                                    </Text>
+                                </Stack>
+                            </Box>
+                        </Stack>
+                    
+                    </Container>
+                )}
+            </Formik>
         </Center>
     </Box>
     );
