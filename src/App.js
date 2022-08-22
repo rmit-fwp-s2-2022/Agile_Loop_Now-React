@@ -1,5 +1,6 @@
-import Header from './pages/Header';
-import './App.css';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   return (
@@ -19,7 +20,10 @@ function App() {
     //     </a>
     //   </header>
     // </div>
-    <Header />
+    <>
+      <Header />
+      <Footer />
+    </>
   );
 }
 
