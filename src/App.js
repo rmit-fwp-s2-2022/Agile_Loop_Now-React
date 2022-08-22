@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Login from "./pages/Login";
 import Landing from "./pages/Landing";
 import SignUp from "./pages/SignUp";
 import "./App.css";
@@ -10,10 +11,11 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="" element={<Header />} />
-        {/* <Route path="login" element={<Login/>}/> */}
+        <Route path="" element={<Landing />} />
+        <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
