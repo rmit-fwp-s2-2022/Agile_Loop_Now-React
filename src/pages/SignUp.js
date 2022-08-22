@@ -15,6 +15,7 @@ import Header from './Header';
 import * as Yup from 'yup';
 import { Link as RouteLink, useNavigate} from "react-router-dom";
 import FormField from './FormField';
+import { addUser } from '../data/User'
 
 function SignUp() {
     const navigate = useNavigate();
@@ -54,7 +55,8 @@ function SignUp() {
                             "password": values.password,
                             "joinedOn": currentDate
                         }
-                        localStorage.setItem(values.email, JSON.stringify(user));
+                        // localStorage.setItem(values.email, JSON.stringify(user));
+                        addUser(user);
                         navigate('/');
                     },1500);          
                 }}>

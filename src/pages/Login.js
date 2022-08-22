@@ -15,6 +15,7 @@ import Header from './Header';
 import * as Yup from 'yup';
 import FormField from './FormField';
 import { Link as RouteLink, useNavigate} from "react-router-dom";
+import { getUser, setCurrentUser } from '../data/User'
 
 function Login() {
     const navigate = useNavigate();
@@ -33,9 +34,9 @@ function Login() {
                     password: Yup.string().required("Password is required")
                     .test(
                         'validateUser',
-                        'Invalid Email or Password',
+                        'Invalid Email or Password. Try Again',
                         function(){
-                            const user = JSON.parse(localStorage.getItem(this.parent.email));
+                            const user = getUser(this.parent.email);
                             if (user != null && user.password === this.parent.password){
                                 return true
                             }else{
@@ -48,6 +49,7 @@ function Login() {
                 
                     setTimeout(() => {
                         // alert(JSON.stringify(values, null, 2));
+                        setCurrentUser(values.email);
                         navigate('/');  
                     },1500);   
                             
