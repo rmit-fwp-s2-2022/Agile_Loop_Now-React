@@ -4,19 +4,22 @@ import Login from "./pages/Login";
 import Landing from "./pages/Landing";
 import SignUp from "./pages/SignUp";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { Fragment } from "react";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Fragment>
       <Header />
-      <Routes>
-        <Route path="" element={<Landing />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<SignUp />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<SignUp />} />
+        </Routes>
+      </main>
       <Footer />
-    </BrowserRouter>
+    </Fragment>
   );
 }
 

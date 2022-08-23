@@ -9,10 +9,12 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+// import { useState } from "react";
 
 function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
 
+  // const [navColor, setNavColor] = useState(false);
   return (
     <div class="fpad">
       <Flex minWidth="max-content" alignItems="center" gap="4">
