@@ -5,26 +5,27 @@ import Landing from "./pages/Landing";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { useState } from "react";
-import { getCurrentUser } from "./data/User"
+import { Routes, Route } from "react-router-dom";
+import { Fragment } from "react";
+
 
 function App() {
 
   const[user] = useState(getCurrentUser());
 
-
   return (
-    <BrowserRouter>
+    <Fragment>
       <Header />
-      <Routes>
-        <Route path="" element={<Landing />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<SignUp />} />
-        <Route path="profile" element={<Profile user={user}/>} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="profile" element={<Profile />} />
+        </Routes>
+      </main>
       <Footer />
-    </BrowserRouter>
+    </Fragment>
   );
 }
 

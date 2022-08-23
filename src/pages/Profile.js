@@ -38,7 +38,7 @@ import { editEmail, editName, deleteUser, logout , getCurrentUser} from '../data
 import {useState, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 
-function Profile(props){
+function Profile(){
     const navigate = useNavigate();
     const user = getCurrentUser();
     const [ userName, setUserName ] = useState(user.name);
