@@ -19,7 +19,7 @@ import { addUser, setCurrentUser } from "../data/User";
 function SignUp() {
   const navigate = useNavigate();
   return (
-    <Box>
+    <Box minH={"87vh"}>
       <Center minH={"80vh"}>
         <Formik
           initialValues={{

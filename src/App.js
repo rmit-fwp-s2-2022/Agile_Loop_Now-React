@@ -11,8 +11,6 @@ import { Fragment } from "react";
 
 function App() {
 
-  const[user] = useState(getCurrentUser());
-
   return (
     <Fragment>
       <Header />

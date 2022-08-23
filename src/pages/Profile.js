@@ -131,7 +131,7 @@ function Profile(){
                             })}
                             onSubmit={(value) => {              
 
-                                if(props.user.email !== value.email){
+                                if(userEmail !== value.email){
                                     editEmail(userEmail, value.email);
                                     setAlertEmail(true);
                                     setUserEmail(value.email);
