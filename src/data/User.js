@@ -46,4 +46,61 @@ function setCurrentUser(email){
     sessionStorage.setItem(CURRENT_KEY, JSON.stringify(getUser(email)));
 }
 
-export { addUser, getUser, verifyEmail, setCurrentUser }
+function getCurrentUser(){
+    return JSON.parse(sessionStorage.getItem(CURRENT_KEY));
+}
+
+function editEmail(currentEmail, newEmail){
+    let userInfo = getUsers();
+    for(let user of userInfo){
+        if(user.email === currentEmail){
+            user.email = newEmail;
+            sessionStorage.setItem(CURRENT_KEY, JSON.stringify(user));
+            break;
+        }
+    }
+
+    localStorage.setItem(USERS_KEY, JSON.stringify(userInfo));
+}
+
+function editName(currentEmail, newName){
+    let userInfo = getUsers();
+    for(let user of userInfo){
+        if(user.email === currentEmail){
+            user.name = newName;
+            sessionStorage.setItem(CURRENT_KEY, JSON.stringify(user));
+            break;
+        }
+    }
+    localStorage.setItem(USERS_KEY, JSON.stringify(userInfo));
+    
+}
+
+function logout(){
+    sessionStorage.removeItem(CURRENT_KEY);
+}
+
+function deleteUser(email){
+    const data = getUsers();
+    let updatedData = [];
+
+    for(const user of data){
+        if(user.email !== email){
+            updatedData.push(user);
+        }
+    }
+
+    localStorage.setItem(USERS_KEY, JSON.stringify(updatedData));
+}
+
+export { 
+    addUser, 
+    getUser, 
+    verifyEmail, 
+    setCurrentUser, 
+    getCurrentUser,
+    editEmail,
+    editName,
+    deleteUser,
+    logout
+}

@@ -49,7 +49,7 @@ function Login() {
             setTimeout(() => {
               // alert(JSON.stringify(values, null, 2));
               setCurrentUser(values.email);
-              navigate("/");
+              navigate("/profile");
             }, 1500);
           }}
           validateOnChange={false}
