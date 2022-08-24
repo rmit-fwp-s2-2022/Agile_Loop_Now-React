@@ -8,18 +8,19 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { Fragment, useState } from "react";
 import { getCurrentUser, setCurrentUser, logout } from "./data/User";
+import Errorpage from "./pages/Errorpage";
 
 function App() {
   const [user] = useState(getCurrentUser());
 
   const loginUser = (email) => {
     setCurrentUser(email);
-  }
+  };
 
   const logoutUser = () => {
     logout();
     setCurrentUser(null);
-  }
+  };
 
   return (
     <Fragment>
@@ -27,9 +28,10 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="login" element={<Login loginUser={loginUser}/>} />
+          <Route path="login" element={<Login loginUser={loginUser} />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="*" element={<Errorpage />} />
         </Routes>
       </main>
       <Footer />
