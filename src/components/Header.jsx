@@ -12,11 +12,11 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 // import { useState } from "react";
 
-function Header() {
+function Header(props) {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <div class="fpad">
+    <div className="fpad">
       <Flex minWidth="max-content" alignItems="center" gap="4">
         <Box p="2">
           <Link to="/">
@@ -29,17 +29,34 @@ function Header() {
         </Box>
         <Spacer />
         <ButtonGroup gap="2" pr="10px">
-          <Link to="/signup">
-            <Button colorScheme="teal" variant="ghost">
-              Sign Up
-            </Button>
-          </Link>
-          <Link to="/login">
-            <Button colorScheme="teal" variant="ghost">
-              Log in
-            </Button>
-          </Link>
+          {props.user === null ?  
+          <Box>
+            <Link to="/signup">
+              <Button colorScheme="teal" variant="ghost">
+                Sign Up
+              </Button>
+            </Link>
+            <Link to="/login">
+              <Button colorScheme="teal" variant="ghost">
+                Log In
+              </Button>
+            </Link>
+          </Box>
+          :
+          <Box>
+            <Link to="/profile">
+              <Button colorScheme="teal" variant="ghost">
+                My Profile
+              </Button>
+            </Link>
+            <Link to="/login">
+              <Button colorScheme="teal" variant="ghost" onClick={props.logout}>
+                Log Out
+              </Button>
+            </Link>
+          </Box>
 
+          }
           <IconButton
             variant="outline"
             icon={colorMode === "light" ? <SunIcon /> : <MoonIcon />}

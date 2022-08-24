@@ -16,7 +16,7 @@ import FormField from "./FormField";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { getUser, setCurrentUser } from "../data/User";
 
-function Login() {
+function Login(props) {
   const navigate = useNavigate();
   return (
     <Box minH={"87vh"}>
@@ -48,7 +48,8 @@ function Login() {
           onSubmit={(values, actions) => {
             setTimeout(() => {
               // alert(JSON.stringify(values, null, 2));
-              setCurrentUser(values.email);
+              // setCurrentUser(values.email);
+              props.loginUser(values.email);
               navigate("/profile");
             }, 1500);
           }}
