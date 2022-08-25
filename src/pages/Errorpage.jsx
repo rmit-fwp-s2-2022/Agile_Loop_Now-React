@@ -3,6 +3,7 @@ import { Button } from "@chakra-ui/react";
 import { Fade } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import Logo from "../components/ErrorLogo";
+import { Link } from "react-router-dom";
 
 function Errorpage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,7 +38,9 @@ function Errorpage() {
         <br />
         <br />
         <Fade in={isOpen}>
-          <Button> Home </Button>
+          <Link to="/">
+            <Button> Home </Button>
+          </Link>
         </Fade>
       </div>
       <br />
