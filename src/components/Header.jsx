@@ -54,6 +54,11 @@ function Header(props) {
                 Log Out
               </Button>
             </Link>
+            <Link to="/forum">
+              <Button colorScheme="teal" variant="ghost">
+                Forum
+              </Button>
+            </Link>
           </Box>
 
           }

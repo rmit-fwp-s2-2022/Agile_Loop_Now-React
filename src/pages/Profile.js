@@ -12,10 +12,6 @@ import {
     InputRightElement,
     InputGroup,
     StackDivider,
-    ButtonGroup,
-    IconButton,
-    Flex,
-    useEditableControls,
     Button,
     FormControl,
     FormErrorMessage,
@@ -31,12 +27,12 @@ import {
     AlertDialogFooter,
     Progress
 } from "@chakra-ui/react";
-import { EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { editEmail, editName, deleteUser, logout , getCurrentUser} from '../data/User';
 import {useState, useRef} from "react";
 import { useNavigate } from "react-router-dom";
+import EditableControls from './EditableControls';
 
 function Profile(){
     const navigate = useNavigate();
@@ -59,25 +55,6 @@ function Profile(){
         
     }
 
-    function EditableControls() {
-        const {
-          isEditing,
-          getSubmitButtonProps,
-          getCancelButtonProps,
-          getEditButtonProps,
-        } = useEditableControls()
-    
-        return isEditing ? (
-          <ButtonGroup justifyContent='center' size='sm'>
-            <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
-            <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
-          </ButtonGroup>
-        ) : (
-          <Flex justifyContent='center'>
-            <IconButton size='sm' icon={<EditIcon />} {...getEditButtonProps()} />
-          </Flex>
-        )
-      }
     return(
         <Box minH={"87vh"}>
             <Center p={20}>
