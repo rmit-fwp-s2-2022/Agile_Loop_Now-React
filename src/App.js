@@ -12,16 +12,18 @@ import { getCurrentUser, setCurrentUser, logout } from "./data/User";
 import Errorpage from "./pages/Errorpage";
 
 function App() {
-  const [user] = useState(getCurrentUser());
-  const [isLoggedIn, setLoggedIn ] = useState(false);
+  const [user, setUser] = useState(getCurrentUser());
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   const loginUser = (email) => {
+    setUser(email);
     setCurrentUser(email);
     setLoggedIn(true);
-  }
+  };
 
   const logoutUser = () => {
     logout();
+    setUser(null);
     setLoggedIn(false);
     setCurrentUser(null);
   };
@@ -35,7 +37,10 @@ function App() {
           <Route path="login" element={<Login loginUser={loginUser} />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="forum" element={<Forum user={user} isLoggedIn={isLoggedIn}/>} />
+          <Route
+            path="forum"
+            element={<Forum user={user} isLoggedIn={isLoggedIn} />}
+          />
           <Route path="*" element={<Errorpage />} />
         </Routes>
       </main>
