@@ -17,14 +17,14 @@ import {
   EditableTextarea,
 } from "@chakra-ui/react";
 
-import axios, { Axios } from "axios";
+import axios from "axios";
 
 import React from "react";
 import { getPosts, createPost } from "../data/Posts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import EditableControls from "./EditableControls";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function Forum(props) {
   const hiddenFileInput = React.useRef(null);
@@ -43,6 +43,10 @@ function Forum(props) {
 
     formData.append("file", image);
     formData.append("upload_preset", "my-uploads");
+    const now = new Date();
+    const date = now.toLocaleDateString();
+    const time = now.toLocaleTimeString();
+    const timeStamp = date + " " + time;
 
     // await axios.post(API, formData).then((response) => {
     //   console.log(response);
@@ -58,6 +62,7 @@ function Forum(props) {
       user: props.user.name,
       content: content,
       link: imageLink,
+      time: timeStamp,
     };
 
     createPost(post);
@@ -146,39 +151,54 @@ function Forum(props) {
         </Collapse>
 
         {/*map goes here*/}
-        <Box p={4} rounded={"lg"} borderWidth={1} mt={3}>
-          <Flex>
-            <Box pt={2} pb={2}>
-              <Avatar bg="teal.500" size={"md"} />
-            </Box>
-            <Box p={3}>
-              <Heading size="sm">User Name</Heading>
-              <Text color={"gray.500"} fontSize={"xs"}>
-                {" "}
-                Posted On
-              </Text>
-            </Box>
-          </Flex>
-
-          <Editable defaultValue={"Sample forum..."} isPreviewFocusable={false}>
-            <EditablePreview />
-            <Textarea
-              as={EditableTextarea}
-              placeholder="What's on your mind?"
-            />
-
-            <Flex mt={3}>
-              <IconButton
-                size={"sm"}
-                colorScheme="orange"
-                icon={<FontAwesomeIcon size="2xl" icon={faImage} />}
-              ></IconButton>
-
-              <Spacer />
-              <EditableControls />
+        {posts.map((post) => (
+          <Box p={4} rounded={"lg"} borderWidth={1} mt={3}>
+            <Flex>
+              <Box pt={2} pb={2}>
+                <Avatar bg="teal.500" size={"md"} />
+              </Box>
+              <Box p={3}>
+                <Heading size="sm">{post.user}</Heading>
+                <Text color={"gray.500"} fontSize={"xs"}>
+                  {" "}
+                  Posted On {post.time}
+                </Text>
+              </Box>
             </Flex>
-          </Editable>
-        </Box>
+
+            <Editable defaultValue={post.content} isPreviewFocusable={false}>
+              <EditablePreview />
+              <Textarea
+                as={EditableTextarea}
+                placeholder="What's on your mind?"
+              />
+              <Spacer />
+              {post.link !== null && (
+                <>
+                  <div className="image-preview">
+                    <img
+                      src={post.link}
+                      alt="preview"
+                      height={200}
+                      width={400}
+                    />
+                  </div>
+                </>
+              )}
+
+              <Flex mt={3}>
+                <IconButton
+                  size={"sm"}
+                  colorScheme="orange"
+                  icon={<FontAwesomeIcon size="2xl" icon={faImage} />}
+                ></IconButton>
+
+                <Spacer />
+                <EditableControls />
+              </Flex>
+            </Editable>
+          </Box>
+        ))}
       </Container>
     </Box>
   );
