@@ -1,106 +1,105 @@
 const USERS_KEY = "users";
-const CURRENT_KEY = "currentUser"
+const CURRENT_KEY = "currentUser";
 
 //Get every registered user from localStorage
-function getUsers(){
-    const data = localStorage.getItem(USERS_KEY);
-    return JSON.parse(data);
+function getUsers() {
+  const data = localStorage.getItem(USERS_KEY);
+  return JSON.parse(data);
 }
 //Get user details of a user from their email
-function getUser(email){
-    const userData = getUsers();
-    for(const user of userData){
-        if(email === user.email){
-            return user;
-        }
-    }
+function getUser(email) {
+  const userData = getUsers();
 
-    return null;
+  for (const user of userData) {
+    if (email === user.email) {
+      return user;
+    }
+  }
+
+  return null;
 }
 
 //Add a user to localStorage
-function addUser(user){
-    //If there are already users registered, retrieve all users and add the new user onto the user array and store the updated list in localStorage
-    if(getUsers() !== null){
-        let data = getUsers();
-        data.push(user);
-        localStorage.setItem(USERS_KEY, JSON.stringify(data));
-    }else{
-        const data = [user];
-        localStorage.setItem(USERS_KEY, JSON.stringify(data));
-    }
+function addUser(user) {
+  //If there are already users registered, retrieve all users and add the new user onto the user array and store the updated list in localStorage
+  if (getUsers() !== null) {
+    let data = getUsers();
+    data.push(user);
+    localStorage.setItem(USERS_KEY, JSON.stringify(data));
+  } else {
+    const data = [user];
+    localStorage.setItem(USERS_KEY, JSON.stringify(data));
+  }
 }
 
 //Check whether an email has already been registered
-function verifyEmail(email){
-    if(getUser(email) === null){
-        
-        return false;
-    }else{
-        return true;
-    }
+function verifyEmail(email) {
+  if (getUser(email) === null) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 //Set the current logged in user in sessionStorage
-function setCurrentUser(email){
-    sessionStorage.setItem(CURRENT_KEY, JSON.stringify(getUser(email)));
+function setCurrentUser(email) {
+  sessionStorage.setItem(CURRENT_KEY, JSON.stringify(getUser(email)));
 }
 
-function getCurrentUser(){
-    return JSON.parse(sessionStorage.getItem(CURRENT_KEY));
+function getCurrentUser() {
+  return JSON.parse(sessionStorage.getItem(CURRENT_KEY));
 }
 
-function editEmail(currentEmail, newEmail){
-    let userInfo = getUsers();
-    for(let user of userInfo){
-        if(user.email === currentEmail){
-            user.email = newEmail;
-            sessionStorage.setItem(CURRENT_KEY, JSON.stringify(user));
-            break;
-        }
+function editEmail(currentEmail, newEmail) {
+  let userInfo = getUsers();
+  for (let user of userInfo) {
+    if (user.email === currentEmail) {
+      user.email = newEmail;
+      sessionStorage.setItem(CURRENT_KEY, JSON.stringify(user));
+      break;
     }
+  }
 
-    localStorage.setItem(USERS_KEY, JSON.stringify(userInfo));
+  localStorage.setItem(USERS_KEY, JSON.stringify(userInfo));
 }
 
-function editName(currentEmail, newName){
-    let userInfo = getUsers();
-    for(let user of userInfo){
-        if(user.email === currentEmail){
-            user.name = newName;
-            sessionStorage.setItem(CURRENT_KEY, JSON.stringify(user));
-            break;
-        }
+function editName(currentEmail, newName) {
+  let userInfo = getUsers();
+  for (let user of userInfo) {
+    if (user.email === currentEmail) {
+      user.name = newName;
+      sessionStorage.setItem(CURRENT_KEY, JSON.stringify(user));
+      break;
     }
-    localStorage.setItem(USERS_KEY, JSON.stringify(userInfo));
-    
+  }
+  localStorage.setItem(USERS_KEY, JSON.stringify(userInfo));
 }
 
-function logout(){
-    sessionStorage.removeItem(CURRENT_KEY);
+function logout() {
+  sessionStorage.removeItem(CURRENT_KEY);
 }
 
-function deleteUser(email){
-    const data = getUsers();
-    let updatedData = [];
+function deleteUser(email) {
+  const data = getUsers();
+  let updatedData = [];
 
-    for(const user of data){
-        if(user.email !== email){
-            updatedData.push(user);
-        }
+  for (const user of data) {
+    if (user.email !== email) {
+      updatedData.push(user);
     }
+  }
 
-    localStorage.setItem(USERS_KEY, JSON.stringify(updatedData));
+  localStorage.setItem(USERS_KEY, JSON.stringify(updatedData));
 }
 
-export { 
-    addUser, 
-    getUser, 
-    verifyEmail, 
-    setCurrentUser, 
-    getCurrentUser,
-    editEmail,
-    editName,
-    deleteUser,
-    logout
-}
+export {
+  addUser,
+  getUser,
+  verifyEmail,
+  setCurrentUser,
+  getCurrentUser,
+  editEmail,
+  editName,
+  deleteUser,
+  logout,
+};

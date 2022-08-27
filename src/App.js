@@ -16,12 +16,13 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   const loginUser = (email) => {
-    setUser(email);
     setCurrentUser(email);
+    setUser(getCurrentUser());
     setLoggedIn(true);
   };
 
   const logoutUser = () => {
+    console.log(user);
     logout();
     setUser(null);
     setLoggedIn(false);
