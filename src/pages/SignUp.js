@@ -113,7 +113,7 @@ function SignUp(props) {
                     <Button
                       type="submit"
                       isLoading={formik.isSubmitting}
-                      bg={"tomato"}
+                      bg={"red.400"}
                       color={"white"}
                       _hover={{ bg: "red.500" }}
                       minW={"100%"}
