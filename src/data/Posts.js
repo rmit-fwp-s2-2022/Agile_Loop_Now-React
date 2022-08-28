@@ -5,6 +5,19 @@ function getPosts() {
   return JSON.parse(data);
 }
 
+function deletePost(timeStamp) {
+  const data = getPosts();
+  let updatedData = [];
+
+  for (const post of data) {
+    if (post.time !== timeStamp) {
+      updatedData.push(post);
+    }
+  }
+
+  localStorage.setItem(POST_KEY, JSON.stringify(updatedData));
+}
+
 //Creates a new array if there isn't any post in localstorage
 function createPost(post) {
   if (getPosts() !== null) {
@@ -17,4 +30,4 @@ function createPost(post) {
   }
 }
 
-export { getPosts, createPost };
+export { getPosts, createPost, deletePost };
