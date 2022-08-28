@@ -32,13 +32,13 @@ function Forum(props) {
   const [posts, setPosts] = useState(getPosts());
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
-  const [imageLink, setImageLink] = useState("");
 
   const API = "https://api.cloudinary.com/v1_1/aglie-loop/image/upload";
 
   //This function calls an API from Cloundinary and stores the images uploaded from the user in the cloud
   //Cloundinary returns a link to the image
   const onSubmit = async () => {
+    let post = {};
     const formData = new FormData();
 
     formData.append("file", image);
@@ -54,17 +54,25 @@ function Forum(props) {
     //   setImageLink(response.data.secure_url);
     // });
 
-    const link = await axios.post(API, formData);
-    console.log(link.data.secure_url);
-    setImageLink(link.data.secure_url);
+    if (image !== null) {
+      const link = await axios.post(API, formData);
+      console.log(link.data.secure_url);
 
-    const post = {
-      user: props.user.name,
-      content: content,
-      link: imageLink,
-      time: timeStamp,
-    };
-
+      post = {
+        user: props.user.name,
+        content: content,
+        link: link.data.secure_url,
+        time: timeStamp,
+      };
+    } else {
+      post = {
+        user: props.user.name,
+        content: content,
+        link: "",
+        time: timeStamp,
+      };
+    }
+    onToggle();
     createPost(post);
     setPosts(getPosts());
   };
@@ -151,54 +159,57 @@ function Forum(props) {
         </Collapse>
 
         {/*map goes here*/}
-        {posts.map((post) => (
-          <Box p={4} rounded={"lg"} borderWidth={1} mt={3}>
-            <Flex>
-              <Box pt={2} pb={2}>
-                <Avatar bg="teal.500" size={"md"} />
-              </Box>
-              <Box p={3}>
-                <Heading size="sm">{post.user}</Heading>
-                <Text color={"gray.500"} fontSize={"xs"}>
-                  {" "}
-                  Posted On {post.time}
-                </Text>
-              </Box>
-            </Flex>
-
-            <Editable defaultValue={post.content} isPreviewFocusable={false}>
-              <EditablePreview />
-              <Textarea
-                as={EditableTextarea}
-                placeholder="What's on your mind?"
-              />
-              <Spacer />
-              {post.link !== null && (
-                <>
-                  <div className="image-preview">
-                    <img
-                      src={post.link}
-                      alt="preview"
-                      height={200}
-                      width={400}
-                    />
-                  </div>
-                </>
-              )}
-
-              <Flex mt={3}>
-                <IconButton
-                  size={"sm"}
-                  colorScheme="orange"
-                  icon={<FontAwesomeIcon size="2xl" icon={faImage} />}
-                ></IconButton>
-
-                <Spacer />
-                <EditableControls />
+        {posts !== null &&
+          posts.map((post) => (
+            <Box p={4} rounded={"lg"} borderWidth={1} mt={3}>
+              <Flex>
+                <Box pt={2} pb={2}>
+                  <Avatar bg="teal.500" size={"md"} />
+                </Box>
+                <Box p={3}>
+                  <Heading size="sm">{post.user}</Heading>
+                  <Text color={"gray.500"} fontSize={"xs"}>
+                    {" "}
+                    Posted On {post.time}
+                  </Text>
+                </Box>
               </Flex>
-            </Editable>
-          </Box>
-        ))}
+
+              <Editable defaultValue={post.content} isPreviewFocusable={false}>
+                <EditablePreview />
+                <Textarea
+                  as={EditableTextarea}
+                  placeholder="What's on your mind?"
+                />
+                <Spacer />
+                {post.link !== "" ? (
+                  <>
+                    <div className="image-preview">
+                      <img
+                        src={post.link}
+                        alt="preview"
+                        height={200}
+                        width={400}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
+
+                <Flex mt={3}>
+                  <IconButton
+                    size={"sm"}
+                    colorScheme="orange"
+                    icon={<FontAwesomeIcon size="2xl" icon={faImage} />}
+                  ></IconButton>
+
+                  <Spacer />
+                  <EditableControls />
+                </Flex>
+              </Editable>
+            </Box>
+          ))}
       </Container>
     </Box>
   );
