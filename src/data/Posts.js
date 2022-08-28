@@ -18,6 +18,19 @@ function deletePost(timeStamp) {
   localStorage.setItem(POST_KEY, JSON.stringify(updatedData));
 }
 
+function editPost(timeStamp, editedContent){
+  let data = getPosts();
+  
+  for (const post of data) {
+    if (post.time === timeStamp) {
+      post.content = editedContent;
+      break;
+    }
+  }
+  localStorage.setItem(POST_KEY, JSON.stringify(data));
+
+}
+
 //Creates a new array if there isn't any post in localstorage
 function createPost(post) {
   if (getPosts() !== null) {
@@ -30,4 +43,4 @@ function createPost(post) {
   }
 }
 
-export { getPosts, createPost, deletePost };
+export { getPosts, createPost, deletePost, editPost };

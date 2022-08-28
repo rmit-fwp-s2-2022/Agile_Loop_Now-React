@@ -26,7 +26,7 @@ import { Formik } from "formik";
 
 import { DeleteIcon } from "@chakra-ui/icons";
 import React from "react";
-import { getPosts, createPost, deletePost } from "../data/Posts";
+import { getPosts, createPost, deletePost, editPost} from "../data/Posts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
@@ -199,64 +199,83 @@ function Forum(props) {
         {/*map goes here*/}
         {posts !== null &&
           posts.map((post) => (
-            <Box p={4} rounded={"lg"} borderWidth={1} mt={3}>
-              <Flex>
-                <Box pt={2} pb={2}>
-                  <Avatar bg="teal.500" size={"md"} />
+            <Formik 
+                initialValues={{ txt: post.content}}
+                validationSchema={Yup.object({
+                txt: Yup.string()
+                    .required("Must contain text")
+                    .max(250, "Write less please"),
+                })}
+                onSubmit={(value) => {
+                    editPost(post.time, value.txt);
+                }}
+                >
+                {(formik) => (
+                    <Box p={4} rounded={"lg"} borderWidth={1} mt={3}>
+                    <Flex>
+                        <Box pt={2} pb={2}>
+                        <Avatar bg="teal.500" size={"md"} />
+                        </Box>
+                        <Box p={3}>
+                        <Heading size="sm">{post.user}</Heading>
+                        <Text color={"gray.500"} fontSize={"xs"}>
+                            {" "}
+                            Posted On {post.time}
+                        </Text>
+                        </Box>
+                    </Flex>
+
+                    <FormControl isInvalid={formik.errors.txt}>
+
+                        <Editable value={formik.values.txt} isPreviewFocusable={false} onSubmit={formik.handleSubmit}>
+                            <EditablePreview />
+                            <Textarea
+                            name="txt"
+                            as={EditableTextarea}
+                            onChange={formik.handleChange}
+                            />
+                            <Spacer />
+                            {post.link !== "" ? (
+                            <>
+                                <div className="image-preview">
+                                <img
+                                    src={post.link}
+                                    alt="preview"
+                                    height={200}
+                                    width={400}
+                                />
+                                </div>
+                            </>
+                            ) : (
+                            <></>
+                            )}
+                            <FormErrorMessage>{formik.errors.txt}</FormErrorMessage>
+                            {props.user.email === post.email && (
+                            <Flex mt={3}>
+                                <IconButton
+                                size={"sm"}
+                                colorScheme="orange"
+                                icon={<FontAwesomeIcon size="2xl" icon={faImage} />}
+                                ></IconButton>
+
+                                <Spacer />
+
+                                <IconButton
+                                mr={4}
+                                size={"sm"}
+                                colorScheme="red"
+                                icon={<DeleteIcon />}
+                                onClick={() => onDelete(post.time)}
+                                ></IconButton>
+                                <EditableControls />
+                            </Flex>
+                        )}
+                        
+                    </Editable>
+                </FormControl>
                 </Box>
-                <Box p={3}>
-                  <Heading size="sm">{post.user}</Heading>
-                  <Text color={"gray.500"} fontSize={"xs"}>
-                    {" "}
-                    Posted On {post.time}
-                  </Text>
-                </Box>
-              </Flex>
-
-              <Editable defaultValue={post.content} isPreviewFocusable={false}>
-                <EditablePreview />
-                <Textarea
-                  as={EditableTextarea}
-                  placeholder="What's on your mind?"
-                />
-                <Spacer />
-                {post.link !== "" ? (
-                  <>
-                    <div className="image-preview">
-                      <img
-                        src={post.link}
-                        alt="preview"
-                        height={200}
-                        width={400}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <></>
                 )}
-
-                {props.user.email === post.email && (
-                  <Flex mt={3}>
-                    <IconButton
-                      size={"sm"}
-                      colorScheme="orange"
-                      icon={<FontAwesomeIcon size="2xl" icon={faImage} />}
-                    ></IconButton>
-
-                    <Spacer />
-
-                    <IconButton
-                      mr={4}
-                      size={"sm"}
-                      colorScheme="red"
-                      icon={<DeleteIcon />}
-                      onClick={() => onDelete(post.time)}
-                    ></IconButton>
-                    <EditableControls />
-                  </Flex>
-                )}
-              </Editable>
-            </Box>
+            </Formik>   
           ))}
       </Container>
     </Box>
