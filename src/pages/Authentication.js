@@ -16,20 +16,22 @@ import FormField from "./FormField";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { generateCode, sendCode } from "../services/VerifyUser";
+import {getAuthentication, setAuthentication } from "../data/User";
 
 function Authentication(props){
 
     const navigate = useNavigate();
-
     //Initialise the verification code
-    const [verificationCode, setVerificationCode] = useState(props.user.code);
+    const [verificationCode, setVerificationCode] = useState(getAuthentication().code);
+    const [user] = useState(getAuthentication().user);
 
     //Funtion to get a new verification code
     function resendCode(){
       const newCode = generateCode();
+      setAuthentication(user, verificationCode);
       setVerificationCode(newCode); //Update to new verification code
       alert("New code sent! Check your email");
-      sendCode(props.user.info.name, newCode); //Send the code to user email
+      sendCode(user.name, newCode); //Send the code to user email
     }
     
     return (
@@ -53,7 +55,7 @@ function Authentication(props){
               //Login user on submit
               onSubmit={() => {
                 setTimeout(() => {
-                  props.loginUser(props.user.info.email);
+                  props.loginUser(user.email);
                   navigate("/profile");
                 }, 1500);
               }}
@@ -81,7 +83,7 @@ function Authentication(props){
                       placeholder="Enter your code"
                       label={"Cofirmation Code"}
                     />
-                    <Text color={"gray.600"}>We sent a verification code to {props.user.info.email}</Text>
+                    <Text color={"gray.600"}>We sent a verification code to {user.email}</Text>
                     <Box>
                       <Stack spacing={4}>
                         <Alert

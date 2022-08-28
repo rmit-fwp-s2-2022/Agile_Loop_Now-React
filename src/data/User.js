@@ -1,5 +1,6 @@
 const USERS_KEY = "users";
 const CURRENT_KEY = "currentUser";
+const AUTH_KEY = "authuser";
 
 //Get every registered user from localStorage (Referenced from Week 3 Lecture code example 10)
 function getUsers() {
@@ -100,6 +101,15 @@ function deleteUser(email) {
   localStorage.setItem(USERS_KEY, JSON.stringify(updatedData));
 }
 
+function setAuthentication(userInfo, userCode){
+    const authUser = {user: userInfo, code: userCode};
+    sessionStorage.setItem(AUTH_KEY, JSON.stringify(authUser));
+}
+
+function getAuthentication(){
+    return JSON.parse(sessionStorage.getItem(AUTH_KEY));
+}
+
 export {
   addUser,
   getUser,
@@ -110,4 +120,6 @@ export {
   editName,
   deleteUser,
   logout,
+  setAuthentication,
+  getAuthentication
 };

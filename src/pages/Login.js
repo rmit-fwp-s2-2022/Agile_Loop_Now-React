@@ -16,6 +16,7 @@ import FormField from "./FormField";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { getUser } from "../data/User";
 import { generateCode, sendCode } from "../services/VerifyUser";
+import { setAuthentication } from "../data/User";
 
 function Login(props) {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ function Login(props) {
               const user = getUser(values.email);
               props.verifyUser({info: user, code: code});
               sendCode(user.name, code);
+              setAuthentication(user, code);
               navigate("/authenticate");
             }, 1500);
           }}
