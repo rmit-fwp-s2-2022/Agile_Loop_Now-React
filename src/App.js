@@ -13,7 +13,8 @@ import { getCurrentUser, setCurrentUser, logout } from "./data/User";
 import Errorpage from "./pages/Errorpage";
 
 function App() {
-  const [user] = useState(getCurrentUser());
+
+  const [user, setUser] = useState(getCurrentUser());
   const [isLoggedIn, setLoggedIn ] = useState(false);
   const [userAuthenticate, setAuthenticate] = useState();
 
@@ -23,11 +24,14 @@ function App() {
 
   const loginUser = (email) => {
     setCurrentUser(email);
+    setUser(getCurrentUser());
     setLoggedIn(true);
-  }
+  };
 
   const logoutUser = () => {
+    console.log(user);
     logout();
+    setUser(null);
     setLoggedIn(false);
     setCurrentUser(null);
   };
