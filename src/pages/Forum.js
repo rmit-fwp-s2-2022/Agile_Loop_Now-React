@@ -24,8 +24,9 @@ import axios from "axios";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
+import { DeleteIcon } from "@chakra-ui/icons";
 import React from "react";
-import { getPosts, createPost } from "../data/Posts";
+import { getPosts, createPost, deletePost } from "../data/Posts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
@@ -63,6 +64,7 @@ function Forum(props) {
 
       post = {
         user: props.user.name,
+        email: props.user.email,
         content: content,
         link: link.data.secure_url,
         time: timeStamp,
@@ -70,6 +72,7 @@ function Forum(props) {
     } else {
       post = {
         user: props.user.name,
+        email: props.user.email,
         content: content,
         link: "",
         time: timeStamp,
@@ -84,10 +87,14 @@ function Forum(props) {
     setImage(null);
   };
 
-  const onClick = () => {
+  const onPressed = () => {
     hiddenFileInput.current.click();
   };
-
+  const onDelete = (time) => {
+    console.log(time);
+    deletePost(time);
+    setPosts(getPosts());
+  };
   const uploadFile = (files) => {
     const image = files[0];
     console.log(image);
@@ -159,7 +166,7 @@ function Forum(props) {
                     icon={
                       <FontAwesomeIcon size="2xl" icon={faImage} type="file" />
                     }
-                    onClick={onClick}
+                    onClick={onPressed}
                   />
                   <input
                     id="selector"
@@ -228,16 +235,26 @@ function Forum(props) {
                   <></>
                 )}
 
-                <Flex mt={3}>
-                  <IconButton
-                    size={"sm"}
-                    colorScheme="orange"
-                    icon={<FontAwesomeIcon size="2xl" icon={faImage} />}
-                  ></IconButton>
+                {props.user.email === post.email && (
+                  <Flex mt={3}>
+                    <IconButton
+                      size={"sm"}
+                      colorScheme="orange"
+                      icon={<FontAwesomeIcon size="2xl" icon={faImage} />}
+                    ></IconButton>
 
-                  <Spacer />
-                  <EditableControls />
-                </Flex>
+                    <Spacer />
+
+                    <IconButton
+                      mr={4}
+                      size={"sm"}
+                      colorScheme="red"
+                      icon={<DeleteIcon />}
+                      onClick={() => onDelete(post.time)}
+                    ></IconButton>
+                    <EditableControls />
+                  </Flex>
+                )}
               </Editable>
             </Box>
           ))}
