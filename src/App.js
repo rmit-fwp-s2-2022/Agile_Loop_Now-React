@@ -13,14 +13,13 @@ import { getCurrentUser, setCurrentUser, logout } from "./data/User";
 import Errorpage from "./pages/Errorpage";
 
 function App() {
-
   const [user, setUser] = useState(getCurrentUser());
-  const [isLoggedIn, setLoggedIn ] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [userAuthenticate, setAuthenticate] = useState();
 
   const verifyUser = (userInfo) => {
     setAuthenticate(userInfo);
-  }
+  };
 
   const loginUser = (email) => {
     setCurrentUser(email);
@@ -42,11 +41,22 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="login" element={<Login loginUser={loginUser} verifyUser={verifyUser}/>} />
+          <Route
+            path="login"
+            element={<Login loginUser={loginUser} verifyUser={verifyUser} />}
+          />
           <Route path="signup" element={<SignUp />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="forum" element={<Forum user={user} isLoggedIn={isLoggedIn}/>} />
-          <Route path="authenticate" element={<Authentication user={userAuthenticate} loginUser={loginUser}/>} />
+          <Route path="profile" element={<Profile logout={logoutUser} />} />
+          <Route
+            path="forum"
+            element={<Forum user={user} isLoggedIn={isLoggedIn} />}
+          />
+          <Route
+            path="authenticate"
+            element={
+              <Authentication user={userAuthenticate} loginUser={loginUser} />
+            }
+          />
           <Route path="*" element={<Errorpage />} />
         </Routes>
       </main>
