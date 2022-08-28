@@ -45,7 +45,7 @@ function App() {
             path="login"
             element={<Login loginUser={loginUser} verifyUser={verifyUser} />}
           />
-          <Route path="signup" element={<SignUp />} />
+          <Route path="signup" element={<SignUp loginUser={loginUser}/>} />
           <Route path="profile" element={<Profile logout={logoutUser} />} />
           <Route
             path="forum"

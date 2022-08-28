@@ -33,7 +33,6 @@ import {
   editEmail,
   editName,
   deleteUser,
-  logout,
   getCurrentUser,
 } from "../data/User";
 import { useState, useRef } from "react";

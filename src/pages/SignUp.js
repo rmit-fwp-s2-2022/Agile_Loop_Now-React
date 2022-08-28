@@ -14,9 +14,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import FormField from "./FormField";
-import { addUser, setCurrentUser } from "../data/User";
+import { addUser } from "../data/User";
 
-function SignUp() {
+function SignUp(props) {
   const navigate = useNavigate();
   return (
     <Box minH={"87vh"}>
@@ -45,22 +45,16 @@ function SignUp() {
           })}
           onSubmit={(values) => {
             setTimeout(() => {
-              // alert(JSON.stringify(values, null, 2));
               const joined = new Date();
-              // let day = joined.getDay();
-              // let date = joined.getDate();
-              // let month = joined.getMonth() + 1;
-              // let year = joined.getFullYear();
-              // let currentDate = `${day} ${date} ${month} ${year}`;
+         
               let user = {
                 name: values.name,
                 email: values.email,
                 password: values.password,
                 joinedOn: joined,
               };
-              // localStorage.setItem(values.email, JSON.stringify(user));
               addUser(user);
-              setCurrentUser(user.email);
+              props.loginUser(user.email);
               navigate("/");
             }, 1500);
           }}
