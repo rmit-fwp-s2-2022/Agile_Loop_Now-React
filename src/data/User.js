@@ -1,3 +1,4 @@
+import { deleteAllUserPost } from "./Posts";
 const USERS_KEY = "users";
 const CURRENT_KEY = "currentUser";
 const AUTH_KEY = "authuser";
@@ -7,7 +8,7 @@ function getUsers() {
   const data = localStorage.getItem(USERS_KEY);
   return JSON.parse(data);
 }
-//Get user details of a user from their email 
+//Get user details of a user from their email
 function getUser(email) {
   const userData = getUsers();
 
@@ -97,19 +98,21 @@ function deleteUser(email) {
     }
   }
 
+  deleteAllUserPost(email);
+
   //Store the new array of users in local storage
   localStorage.setItem(USERS_KEY, JSON.stringify(updatedData));
 }
 
 //Store authentication details
-function setAuthentication(userInfo, userCode){
-    const authUser = {user: userInfo, code: userCode};
-    sessionStorage.setItem(AUTH_KEY, JSON.stringify(authUser));
+function setAuthentication(userInfo, userCode) {
+  const authUser = { user: userInfo, code: userCode };
+  sessionStorage.setItem(AUTH_KEY, JSON.stringify(authUser));
 }
 
 //Get authentication details
-function getAuthentication(){
-    return JSON.parse(sessionStorage.getItem(AUTH_KEY));
+function getAuthentication() {
+  return JSON.parse(sessionStorage.getItem(AUTH_KEY));
 }
 
 export {
@@ -123,5 +126,5 @@ export {
   deleteUser,
   logout,
   setAuthentication,
-  getAuthentication
+  getAuthentication,
 };
