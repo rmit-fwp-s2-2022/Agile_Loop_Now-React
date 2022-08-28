@@ -14,7 +14,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import FormField from "./FormField";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
-import { getUser, setCurrentUser } from "../data/User";
+import { getUser } from "../data/User";
 
 function Login(props) {
   const navigate = useNavigate();
