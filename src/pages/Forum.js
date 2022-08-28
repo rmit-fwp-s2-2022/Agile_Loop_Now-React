@@ -15,9 +15,15 @@ import {
   Editable,
   EditablePreview,
   EditableTextarea,
+  FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import EditableControls from './EditableControls';
+import EditableControls from "./EditableControls";
 import axios from "axios";
+
+import * as Yup from "yup";
+import { Formik } from "formik";
+
 import React from "react";
 import { getPosts, createPost } from "../data/Posts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,14 +34,13 @@ function Forum(props) {
   const hiddenFileInput = React.useRef(null);
   const { isOpen, onToggle } = useDisclosure();
   const [posts, setPosts] = useState(getPosts());
-  const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
 
   const API = "https://api.cloudinary.com/v1_1/aglie-loop/image/upload";
 
   //This function calls an API from Cloundinary and stores the images uploaded from the user in the cloud
   //Cloundinary returns a link to the image
-  const onSubmit = async () => {
+  const onSubmit = async (content) => {
     let post = {};
     const formData = new FormData();
 
@@ -76,7 +81,6 @@ function Forum(props) {
   };
 
   const reset = () => {
-    setContent("");
     setImage(null);
   };
 
@@ -100,60 +104,89 @@ function Forum(props) {
         </Box>
 
         <Collapse in={isOpen} animateOpacity>
-          <Box p={4} rounded={"lg"} borderWidth={1}>
-            <Flex>
-              <Box pt={2} pb={2}>
-                <Avatar bg="teal.500" size={"md"} />
-              </Box>
-              <Box>
-                <Heading size="sm" mt={2} p={3}>
-                  {props.user.name}
-                </Heading>
-              </Box>
-            </Flex>
-            {image !== null && (
-              <>
-                <div className="image-preview">
-                  <img
-                    src={URL.createObjectURL(image)}
-                    alt="preview"
-                    height={200}
-                    width={400}
+          <Formik
+            initialValues={{ txt: "" }}
+            validationSchema={Yup.object({
+              txt: Yup.string()
+                .required("Must contain text")
+                .max(250, "Write less please"),
+            })}
+            onSubmit={(value) => {
+              onSubmit(value.txt);
+              console.log(value);
+            }}
+          >
+            {(formik) => (
+              <Box p={4} rounded={"lg"} borderWidth={1}>
+                <Flex>
+                  <Box pt={2} pb={2}>
+                    <Avatar bg="teal.500" size={"md"} />
+                  </Box>
+                  <Box>
+                    <Heading size="sm" mt={2} p={3}>
+                      {props.user.name}
+                    </Heading>
+                  </Box>
+                </Flex>
+                {image !== null && (
+                  <>
+                    <div className="image-preview">
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt="preview"
+                        height={200}
+                        width={400}
+                      />
+                    </div>
+                  </>
+                )}
+
+                <FormControl isInvalid={formik.errors.txt}>
+                  <Textarea
+                    placeholder="What's on your mind?"
+                    name="txt"
+                    value={formik.values.txt}
+                    onChange={formik.handleChange}
                   />
-                </div>
-              </>
+                  <FormErrorMessage>{formik.errors.txt}</FormErrorMessage>
+                </FormControl>
+
+                <Flex mt={3}>
+                  <IconButton
+                    type={"file"}
+                    size={"sm"}
+                    colorScheme="orange"
+                    icon={
+                      <FontAwesomeIcon size="2xl" icon={faImage} type="file" />
+                    }
+                    onClick={onClick}
+                  />
+                  <input
+                    id="selector"
+                    type="file"
+                    style={{ display: "none" }}
+                    ref={hiddenFileInput}
+                    accept="image/*"
+                    onChange={(e) => uploadFile(e.target.files)}
+                  />
+                  <Spacer />
+                  <ButtonGroup>
+                    <Button colorScheme="teal" onClick={formik.handleSubmit}>
+                      Post
+                    </Button>
+                    <Button
+                      onClick={(e) => {
+                        formik.handleReset();
+                        reset();
+                      }}
+                    >
+                      Reset
+                    </Button>
+                  </ButtonGroup>
+                </Flex>
+              </Box>
             )}
-            <Textarea
-              placeholder="What's on your mind?"
-              name="content"
-              onChange={(e) => setContent(e.target.value)}
-              value={content}
-            />
-            <Flex mt={3}>
-              <IconButton
-                type={"file"}
-                size={"sm"}
-                colorScheme="orange"
-                icon={<FontAwesomeIcon size="2xl" icon={faImage} type="file" />}
-                onClick={onClick}
-              />
-              <input
-                id="selector"
-                type="file"
-                style={{ display: "none" }}
-                ref={hiddenFileInput}
-                accept="image/*"
-                onChange={(e) => uploadFile(e.target.files)}
-              />
-              <Spacer />
-              <ButtonGroup>
-                <Button colorScheme="teal" onClick={onSubmit}>
-                  Post
-                </Button>
-                <Button onClick={reset}>Reset</Button>
-              </ButtonGroup>
-            </Flex>
-          </Box>
+          </Formik>
         </Collapse>
 
         {/*map goes here*/}
