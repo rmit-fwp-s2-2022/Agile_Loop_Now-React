@@ -95,16 +95,19 @@ function Forum(props) {
     setImage(null);
   };
 
+  //Helper function for detecting image upload changes
   const onPressed = () => {
     hiddenFileInput.current.click();
   };
 
+  //Simple function that deletes the specified post
   const onDelete = (time) => {
     console.log(time);
     deletePost(time);
     setPosts(getPosts());
   };
 
+  //This fucntion lets users upload their image to the staging area before being sent to Cloundinary
   const uploadFile = (files) => {
     const image = files[0];
     console.log(image);
@@ -113,6 +116,7 @@ function Forum(props) {
     setImage(image);
   };
 
+  //This fucntion is used for editing the post's image and sends it to Cloundinary to get a new link
   const newImage = async (timeStamp) => {
     setButton(false);
     await editImage(image, timeStamp);

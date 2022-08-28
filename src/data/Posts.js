@@ -6,6 +6,7 @@ function getPosts() {
   return JSON.parse(data);
 }
 
+//Deletes post by not adding the targeted post into the new array
 function deletePost(timeStamp) {
   const data = getPosts();
   let updatedData = [];
@@ -19,6 +20,7 @@ function deletePost(timeStamp) {
   localStorage.setItem(POST_KEY, JSON.stringify(updatedData));
 }
 
+//This function only edits the text part of the post
 function editPost(timeStamp, editedContent) {
   let data = getPosts();
 
@@ -31,6 +33,7 @@ function editPost(timeStamp, editedContent) {
   localStorage.setItem(POST_KEY, JSON.stringify(data));
 }
 
+//This function use axios to get the image link and reassign the link
 async function editImage(image, timeStamp) {
   const formData = new FormData();
   console.log(image);
@@ -66,6 +69,7 @@ function createPost(post) {
   }
 }
 
+//Deletes post by not adding the targeted post into the new array
 function deleteAllUserPost(email) {
   const data = getPosts();
   let updated = [];
