@@ -16,16 +16,12 @@ import {
   EditablePreview,
   EditableTextarea,
 } from "@chakra-ui/react";
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage } from '@fortawesome/free-solid-svg-icons';
 import EditableControls from './EditableControls';
 import axios from "axios";
 import React from "react";
 import { getPosts, createPost } from "../data/Posts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import EditableControls from "./EditableControls";
 import { useState } from "react";
 
 function Forum(props) {
