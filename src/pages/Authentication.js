@@ -46,7 +46,7 @@ function Authentication(props){
                   .required("Please check your email for verification code")
                   .test('match', 
                     'Invalid code, please check your email', 
-                    //Check code matches
+                    //Check code matches with user input
                     function() {
                       const emailCode = String(verificationCode);
                       return this.parent.code.trim() === emailCode.trim(); 

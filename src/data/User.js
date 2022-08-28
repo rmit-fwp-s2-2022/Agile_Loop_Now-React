@@ -101,11 +101,13 @@ function deleteUser(email) {
   localStorage.setItem(USERS_KEY, JSON.stringify(updatedData));
 }
 
+//Store authentication details
 function setAuthentication(userInfo, userCode){
     const authUser = {user: userInfo, code: userCode};
     sessionStorage.setItem(AUTH_KEY, JSON.stringify(authUser));
 }
 
+//Get authentication details
 function getAuthentication(){
     return JSON.parse(sessionStorage.getItem(AUTH_KEY));
 }

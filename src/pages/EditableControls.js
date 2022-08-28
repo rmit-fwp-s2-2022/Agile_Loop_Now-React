@@ -7,6 +7,8 @@ import {
 import { EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 
 // Referenced from https://chakra-ui.com/docs/components/editable 
+
+//Funtion to show hide edit controls
 function EditableControls() {
     const {
       isEditing,

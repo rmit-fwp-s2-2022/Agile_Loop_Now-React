@@ -53,8 +53,8 @@ function SignUp(props) {
                 password: values.password,
                 joinedOn: joined,
               };
-              addUser(user);
-              props.loginUser(user.email);
+              addUser(user); //Add user to local storage
+              props.loginUser(user.email); //Set logged in user
               navigate("/");
             }, 1500);
           }}
