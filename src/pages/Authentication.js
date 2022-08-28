@@ -20,13 +20,16 @@ import { generateCode, sendCode } from "../services/VerifyUser";
 function Authentication(props){
 
     const navigate = useNavigate();
+
+    //Initialise the verification code
     const [verificationCode, setVerificationCode] = useState(props.user.code);
 
+    //Funtion to get a new verification code
     function resendCode(){
       const newCode = generateCode();
-      setVerificationCode(newCode);
+      setVerificationCode(newCode); //Update to new verification code
       alert("New code sent! Check your email");
-      sendCode(props.user.info.name, newCode);
+      sendCode(props.user.info.name, newCode); //Send the code to user email
     }
     
     return (
@@ -41,12 +44,14 @@ function Authentication(props){
                   .required("Please check your email for verification code")
                   .test('match', 
                     'Invalid code, please check your email', 
+                    //Check code matches
                     function() {
                       const emailCode = String(verificationCode);
                       return this.parent.code.trim() === emailCode.trim(); 
                   }),          
               })}
-              onSubmit={(values, actions) => {
+              //Login user on submit
+              onSubmit={() => {
                 setTimeout(() => {
                   props.loginUser(props.user.info.email);
                   navigate("/profile");

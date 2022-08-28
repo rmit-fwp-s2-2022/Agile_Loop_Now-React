@@ -37,6 +37,7 @@ function Login(props) {
               .test(
                 "validateUser",
                 "Invalid Email or Password. Try Again",
+                //Check password and email of user
                 function () {
                   const user = getUser(this.parent.email);
                   if (user != null && user.password === this.parent.password) {
@@ -47,7 +48,7 @@ function Login(props) {
                 }
               ),
           })}
-          onSubmit={(values, actions) => {
+          onSubmit={(values) => {
             setTimeout(() => {
               const code = generateCode();
               const user = getUser(values.email);

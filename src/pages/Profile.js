@@ -44,9 +44,9 @@ function Profile(props) {
   const user = getCurrentUser();
   const [userName, setUserName] = useState(user.name);
   const [userEmail, setUserEmail] = useState(user.email);
-  const [alertName, setAlertName] = useState(false);
-  const [alertEmail, setAlertEmail] = useState(false);
-  const [isDeletingUser, setDeletingUser] = useState(false);
+  const [alertName, setAlertName] = useState(false); //Visual cues on succesful name change
+  const [alertEmail, setAlertEmail] = useState(false); //Visual cues on succesful email change
+  const [isDeletingUser, setDeletingUser] = useState(false); //Whether a user is being deleted
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 

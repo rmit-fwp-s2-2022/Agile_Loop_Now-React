@@ -6,6 +6,7 @@ import {
 } from '@chakra-ui/react';
 import { EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 
+// Referenced from https://chakra-ui.com/docs/components/editable 
 function EditableControls() {
     const {
       isEditing,
