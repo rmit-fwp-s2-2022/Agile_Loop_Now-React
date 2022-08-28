@@ -14,10 +14,12 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import FormField from "./FormField";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
-import { getUser, setCurrentUser } from "../data/User";
+import { getUser } from "../data/User";
+import { generateCode, sendCode } from "../services/VerifyUser";
 
 function Login(props) {
   const navigate = useNavigate();
+
   return (
     <Box minH={"87vh"}>
       <Center minH={"70vh"}>
@@ -47,10 +49,11 @@ function Login(props) {
           })}
           onSubmit={(values, actions) => {
             setTimeout(() => {
-              // alert(JSON.stringify(values, null, 2));
-              // setCurrentUser(values.email);
-              props.loginUser(values.email);
-              navigate("/profile");
+              const code = generateCode();
+              const user = getUser(values.email);
+              props.verifyUser({info: user, code: code});
+              sendCode(user.name, code);
+              navigate("/authenticate");
             }, 1500);
           }}
           validateOnChange={false}
@@ -91,7 +94,7 @@ function Login(props) {
                       display={formik.isSubmitting ? "inherit" : "none"}
                     >
                       <AlertIcon />
-                      Logging You In!
+                      Sending Verification Code!
                     </Alert>
                     <Button
                       type="submit"

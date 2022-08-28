@@ -20,7 +20,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import EditableControls from './EditableControls';
-import { useState } from 'react';
 
 
 function Forum(props){

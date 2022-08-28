@@ -5,6 +5,7 @@ import Landing from "./pages/Landing";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import Forum from "./pages/Forum";
+import Authentication from "./pages/Authentication";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { Fragment, useState } from "react";
@@ -14,6 +15,11 @@ import Errorpage from "./pages/Errorpage";
 function App() {
   const [user] = useState(getCurrentUser());
   const [isLoggedIn, setLoggedIn ] = useState(false);
+  const [userAuthenticate, setAuthenticate] = useState();
+
+  const verifyUser = (userInfo) => {
+    setAuthenticate(userInfo);
+  }
 
   const loginUser = (email) => {
     setCurrentUser(email);
@@ -32,10 +38,11 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="login" element={<Login loginUser={loginUser} />} />
+          <Route path="login" element={<Login loginUser={loginUser} verifyUser={verifyUser}/>} />
           <Route path="signup" element={<SignUp />} />
           <Route path="profile" element={<Profile />} />
           <Route path="forum" element={<Forum user={user} isLoggedIn={isLoggedIn}/>} />
+          <Route path="authenticate" element={<Authentication user={userAuthenticate} loginUser={loginUser}/>} />
           <Route path="*" element={<Errorpage />} />
         </Routes>
       </main>
